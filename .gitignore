@@ -9,7 +9,6 @@ target/
 *.war
 !.mvn/wrapper/maven-wrapper.jar
 .mvn/timing.properties
-.mvn/wrapper/maven-wrapper.properties
 
 # ---------- Node / React (frontend) ----------
 node_modules/
