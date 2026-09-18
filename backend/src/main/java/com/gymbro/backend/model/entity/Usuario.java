@@ -119,13 +119,13 @@ public class Usuario extends BaseEntity {
      * historial completo, no solo el vigente.
      */
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,
-               fetch = FetchType.LAZY, orphanRemoval = true)
+               fetch = FetchType.LAZY)
     @Builder.Default
     private List<Suscripcion> suscripciones = new ArrayList<>();
 
     /** UNO A MUCHOS con Rutina. Un socio acumula rutinas a lo largo del tiempo. */
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,
-               fetch = FetchType.LAZY, orphanRemoval = true)
+               fetch = FetchType.LAZY)
     @Builder.Default
     private List<Rutina> rutinas = new ArrayList<>();
 
