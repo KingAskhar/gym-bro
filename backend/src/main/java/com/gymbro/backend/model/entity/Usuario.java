@@ -4,6 +4,8 @@ import com.gymbro.backend.model.base.BaseEntity;
 import com.gymbro.backend.model.embeddable.Direccion;
 import com.gymbro.backend.model.enums.EstadoUsuario;
 import com.gymbro.backend.model.enums.TipoDocumento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -78,6 +80,7 @@ public class Usuario extends BaseEntity {
      * que siempre ocupa 60 caracteres.
      */
     @Column(name = "password_hash", nullable = false, length = 60)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // nunca sale en la respuesta
     private String passwordHash;
 
     @Column(name = "telefono", length = 20)
@@ -110,6 +113,7 @@ public class Usuario extends BaseEntity {
      */
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL,
               fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
     private Empleado empleado;
 
     /**
@@ -120,12 +124,20 @@ public class Usuario extends BaseEntity {
      */
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,
                fetch = FetchType.LAZY)
+<<<<<<< HEAD
+=======
+    @JsonIgnore
+>>>>>>> 5fe7f0680670d5e16d9fdc12b799f9415adf35df
     @Builder.Default
     private List<Suscripcion> suscripciones = new ArrayList<>();
 
     /** UNO A MUCHOS con Rutina. Un socio acumula rutinas a lo largo del tiempo. */
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,
                fetch = FetchType.LAZY)
+<<<<<<< HEAD
+=======
+    @JsonIgnore
+>>>>>>> 5fe7f0680670d5e16d9fdc12b799f9415adf35df
     @Builder.Default
     private List<Rutina> rutinas = new ArrayList<>();
 

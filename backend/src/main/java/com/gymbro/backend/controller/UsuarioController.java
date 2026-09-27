@@ -24,14 +24,14 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> listarTodos() {
         // TODO 7: llamá a usuarioService.obtenerTodos() y envolvé el
         // resultado con ResponseEntity.ok(...). Es una sola línea.
-        return null;
+        return ResponseEntity.ok(usuarioService.obtenerTodos());;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id) {
         // TODO 8: igual que arriba, pero llamando a
         // usuarioService.obtenerPorId(id).
-        return null;
+        return ResponseEntity.ok(usuarioService.obtenerPorId(id));
     }
 
     @DeleteMapping("/{id}")
@@ -42,7 +42,7 @@ public class UsuarioController {
         // Nota curiosa: aunque el verbo HTTP se llame DELETE, por dentro
         // nunca borramos nada físicamente. Eso es justo lo que estás
         // demostrando con esta regla de negocio.
-        return null;
+        return ResponseEntity.ok(usuarioService.eliminarLogicamente(id));
     }
 
     // Este método ya está completo, no hace falta tocarlo.
@@ -53,7 +53,7 @@ public class UsuarioController {
         Map<String, Object> error = new LinkedHashMap<>();
         error.put("timestamp", LocalDateTime.now());
         error.put("status", HttpStatus.BAD_REQUEST.value());
-        error.put("error", "Bad	Request");
+        error.put("error", "Bad Request");
         error.put("message", ex.getMessage());
         error.put("path", "/api/usuarios");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
