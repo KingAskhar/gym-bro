@@ -124,20 +124,14 @@ public class Usuario extends BaseEntity {
      */
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,
                fetch = FetchType.LAZY)
-<<<<<<< HEAD
-=======
     @JsonIgnore
->>>>>>> 5fe7f0680670d5e16d9fdc12b799f9415adf35df
     @Builder.Default
     private List<Suscripcion> suscripciones = new ArrayList<>();
 
     /** UNO A MUCHOS con Rutina. Un socio acumula rutinas a lo largo del tiempo. */
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,
                fetch = FetchType.LAZY)
-<<<<<<< HEAD
-=======
     @JsonIgnore
->>>>>>> 5fe7f0680670d5e16d9fdc12b799f9415adf35df
     @Builder.Default
     private List<Rutina> rutinas = new ArrayList<>();
 
