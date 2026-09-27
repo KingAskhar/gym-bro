@@ -2,6 +2,8 @@ package com.gymbro.backend.model.entity;
 
 import com.gymbro.backend.model.base.BaseEntity;
 import com.gymbro.backend.model.enums.NivelDificultad;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -68,6 +70,10 @@ public class Rutina extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "usuario_id", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_rutina_usuario"))
+    // WRITE_ONLY: se acepta en el JSON de entrada ("usuario": {"id": 1}),
+    // pero no se escribe en la respuesta. Evita leer el proxy LAZY con la
+    // sesion cerrada y el ciclo Rutina -> Usuario -> rutinas -> Rutina.
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Usuario usuario;
 
     /**
@@ -91,12 +97,25 @@ public class Rutina extends BaseEntity {
         inverseJoinColumns = @JoinColumn(name = "ejercicio_id",
                         foreignKey = @ForeignKey(name = "fk_rutina_ejercicio_ejercicio"))
     )
+    // Por ahora no se expone en el JSON: es LAZY y la sesion ya esta
+    // cerrada cuando Jackson arma la respuesta.
+    @JsonIgnore
     @Builder.Default
     private Set<Ejercicio> ejercicios = new HashSet<>();
 
     // ---------------------------------------------------------------
     //  METODOS DE APOYO
     // ---------------------------------------------------------------
+
+    /**
+     * En la respuesta JSON se muestra solo el id del socio ("usuarioId"),
+     * no el objeto completo. Pedirle el id a un proxy LAZY no va a la base
+     * de datos, por eso funciona aunque la sesion ya este cerrada.
+     */
+    @JsonProperty("usuarioId")
+    public Long getUsuarioId() {
+        return usuario != null ? usuario.getId() : null;
+    }
 
     /** Mantiene sincronizados los dos lados de la relacion. */
     public void agregarEjercicio(Ejercicio ejercicio) {
